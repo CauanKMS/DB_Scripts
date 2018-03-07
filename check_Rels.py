@@ -1,6 +1,6 @@
 #CauanKMS, Feb 23rd 2018
 
-import os.path, datetime;
+import os.path, datetime, win32api as win;
 
 ###########
 # REPORTS #
@@ -32,9 +32,14 @@ for f in fileReps:
 filepath_ap70 = "//ap70/"
 filepathBD = filepath_ap70 + "BD.mdb"
 
-try:
-    modTimeFileBD = datetime.datetime.fromtimestamp(os.path.getmtime(filepathBD)).strftime("%d/%m/%Y %H:%M")
-    print('\n' + filepathBD.lstrip(filepath_ap70) + ': ONLINE, ' + modTimeFileBD)
-    
-except:
-     print('\n' + filepathBDNotas.lstrip(filepath_ap70) + ': OFFLINE')
+tryagain = True
+
+while(tryagain == True):
+    try:
+        modTimeFileBD = datetime.datetime.fromtimestamp(os.path.getmtime(filepathBD)).strftime("%d/%m/%Y %H:%M")
+        print('\n' + filepathBD.lstrip(filepath_ap70) + ': ONLINE, ' + modTimeFileBD)
+        win.MessageBox(0, 'DONE!', 'BD.mdb is online!')
+        tryagain = False
+
+    except:
+        print('\n' + filepathBDNotas.lstrip(filepath_ap70) + ': OFFLINE')
