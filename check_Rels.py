@@ -1,12 +1,7 @@
 #CauanKMS, Feb 23rd 2018
 
-import os.path, datetime;
-
-###########
-# REPORTS #
-###########
-
-ti = ['0005', '5555', '0555', '0055']
+import os.path, datetime
+import win32api as win
 
 repsSrc = "//sm1/dpout/"
 
@@ -18,23 +13,36 @@ def checkFile(file):
     else:
         return file.lstrip(repsSrc) + ': DAMN, SON! ' + modTimeFile
 
-fileReps = ["r04_", "o2_","019_G_", "pr7_"] 
+ti = ['0005', '5555', '0555', '0055']
+fileReps = ["r04_", "o2_","019_G_", "pr7_"]
 
-for f in fileReps:
-    for t in ti:
-        filepath = repsSrc + f + t + ".txt"
-        print(checkFile(filepath))
-
-###################
+##########
 # BD.mdb #
-###################
+##########
 
 filepath_ap70 = "//ap70/"
 filepathBD = filepath_ap70 + "BD.mdb"
 
-try:
-    modTimeFileBD = datetime.datetime.fromtimestamp(os.path.getmtime(filepathBD)).strftime("%d/%m/%Y %H:%M")
-    print('\n' + filepathBD.lstrip(filepath_ap70) + ': ONLINE, ' + modTimeFileBD)
-    
-except:
-     print('\n' + filepathBDNotas.lstrip(filepath_ap70) + ': OFFLINE')
+tryagain = True
+
+while(tryagain == True):
+    try:
+        modTimeFileBD = datetime.datetime.fromtimestamp(os.path.getmtime(filepathBD)).strftime("%d/%m/%Y %H:%M")
+        print('\n' + filepathBD.lstrip(filepath_ap70) + ': ONLINE, ' + modTimeFileBD)
+        tryagain = False
+
+    except:
+        print('\n' + filepathBD.lstrip(filepath_ap70) + ': OFFLINE')
+        tryagain = True
+
+###########
+# REPORTS #
+###########
+
+for f in fileReps:
+    for t in tipos:
+        filepath = repsSrc + f + t + ".txt"
+        print(checkFile(filepath))
+
+win.MessageBox(0, 'CHECK THE FILES!', 'DONE!')
+
